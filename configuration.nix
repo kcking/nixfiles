@@ -126,8 +126,10 @@ in {
     home.shellAliases = {
       g = "git";
       "..." = "cd ../..";
-      nxx = "sudo vi /etc/nixos/configuration.nix";
-      nrb = "sudo nixos-rebuild switch --flake /etc/nixos/#";
+      # Nix EDit
+      ned = "$EDITOR $HOME/src/nixfiles/configuration.nix";
+      # Nix ReBuild
+      nrb = "sudo nixos-rebuild switch --flake $HOME/src/nixfiles/.#";
     };
     # https://www.reddit.com/r/NixOS/comments/nxnswt/cant_change_themes_on_wayland/h1skv8w/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
     # try to fix wezterm cursor issues
@@ -170,7 +172,13 @@ in {
 
     programs.i3status-rust = { enable = true; };
 
-    programs.vscode = { enable = true; };
+    programs.vscode = {
+      enable = true;
+      userSettings = {
+        # fixes wayland crash on startup
+        "window.titleBarStyle" = "custom";
+      };
+    };
 
     programs.neovim = {
       defaultEditor = true;
@@ -181,11 +189,19 @@ in {
       plugins = with pkgs.vimPlugins; [
         nvim-lspconfig
         nvim-treesitter.withAllGrammars
-        plenary-nvim
         gruvbox-material
-        mini-nvim
         neoformat
       ];
+      extraConfig = ''
+    " When editing a file, always jump to the last known cursor position.
+    " Don't do it when the position is invalid, when inside an event handler
+    " (happens when dropping a file on gvim) and for a commit message (it's
+    " likely a different one than last time).
+    autocmd BufReadPost *
+      \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+      \ |   exe "normal! g`\""
+      \ | endif
+      '';
     };
 
   };
