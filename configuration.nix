@@ -128,8 +128,12 @@ in {
       "..." = "cd ../..";
       # Nix EDit
       ned = "$EDITOR $HOME/src/nixfiles/configuration.nix";
+      # Nix Edit Flake
+      nef = "$EDITOR $HOME/src/nixfiles/flake.nix";
       # Nix ReBuild
       nrb = "sudo nixos-rebuild switch --flake $HOME/src/nixfiles/.#";
+      # Nix UpDate
+      nud = "sudo nix flake update $HOME/src/nixfiles";
     };
     # https://www.reddit.com/r/NixOS/comments/nxnswt/cant_change_themes_on_wayland/h1skv8w/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
     # try to fix wezterm cursor issues
@@ -266,6 +270,18 @@ in {
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.11"; # Did you read the comment?
+
+  fonts.fonts = with pkgs; [
+  noto-fonts
+  noto-fonts-cjk
+  noto-fonts-emoji
+  liberation_ttf
+  fira-code
+  fira-code-symbols
+  mplus-outline-fonts.githubRelease
+  dina-font
+  proggyfonts
+];
 
 }
 
