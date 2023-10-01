@@ -102,7 +102,7 @@ in {
     shell = pkgs.zsh;
   };
   home-manager.users.kevin = { pkgs, ... }: {
-    home.packages = with pkgs; [ chromium fuzzel wezterm nixfmt ];
+    home.packages = with pkgs; [ chromium fuzzel wezterm nixfmt element-desktop ];
     home.stateVersion = "23.11";
     wayland.windowManager.sway = {
       enable = true;
