@@ -6,17 +6,10 @@
 
 let
   i3statusbarconfig = pkgs.writeText "i3statusbar-config" ''
+  [icons]
+  icons = "awesome6"
     [theme]
     theme = "gruvbox-dark"
-    [icons.overrides]
-    bat = [
-        "| |",
-        "|¼|",
-        "|½|",
-        "|¾|",
-        "|X|",
-    ]
-    bat_charging = "|^|"
     [[block]]
     block = "battery"
     driver = "upower"
@@ -286,6 +279,7 @@ services.upower.enable = true;
   mplus-outline-fonts.githubRelease
   dina-font
   proggyfonts
+  font-awesome
 ];
 
 }
