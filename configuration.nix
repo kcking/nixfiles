@@ -21,8 +21,6 @@ let
     [[block]]
     block = "uptime"
     [[block]]
-    block = "sound"
-    [[block]]
     block = "time"
     interval = 10
     format = "$timestamp.datetime()"
@@ -73,13 +71,14 @@ in {
 
 
   # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  # not yet supported on asahi
+  # sound.enable = true;
+  # hardware.pulseaudio.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.kevin = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "audio" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [ firefox tree ];
     shell = pkgs.zsh;
   };
@@ -203,6 +202,7 @@ in {
         --time \
         --asterisks \
         --user-menu \
+	--remember \
         --cmd sway
         ''; 
     };
