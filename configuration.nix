@@ -72,27 +72,16 @@ in {
   #   useXkbConfig = true; # use xkbOptions in tty.
   # };
 
-  # Enable the X11 windowing system.
-  # services.xserver.enable = true;
 
   security.polkit.enable = true;
   security.sudo.extraConfig = ''
     Defaults        timestamp_timeout=300
   '';
 
-  # Configure keymap in X11
-  # services.xserver.layout = "us";
-  # services.xserver.xkbOptions = "eurosign:e,caps:escape";
-
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
 
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = true;
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.kevin = {
@@ -212,9 +201,23 @@ in {
 
   programs.zsh.enable = true;
 
-  environment.loginShellInit = ''
-    [[ "$(tty)" == /dev/tty1 ]] && sway
-  '';
+  services.greetd = {
+  enable = true;
+  settings = rec {
+    default_session = {
+      command = ''
+        ${pkgs.greetd.tuigreet}/bin/tuigreet \
+        --time \
+        --asterisks \
+        --user-menu \
+        --cmd sway
+        ''; 
+    };
+  };
+};
+
+# for i3status-rs battery support
+services.upower.enable = true;
 
   # chromium wayland support, fixes high-dpi scaling
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
