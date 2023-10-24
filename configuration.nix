@@ -220,6 +220,7 @@ services.upower.enable = true;
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     git
     bottom
+    killall
   ];
 
   services.automatic-timezoned.enable = true;
